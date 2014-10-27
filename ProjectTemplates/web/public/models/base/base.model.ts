@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../_references.d.ts" />
 
-import plat = require('../../lib/platypus/platypus');
+import plat = require('platypus');
 
 class BaseFactory<PM extends models.IBaseModel, SM extends server.models.IBaseModel> {
     utils = plat.acquire(plat.IUtils);

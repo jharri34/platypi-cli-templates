@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../_references.d.ts" />
 
-import plat = require('../../lib/platypus/platypus');
+import plat = require('platypus');
 
 class BaseService<SM extends server.models.IBaseModel> {
     http = plat.acquire(plat.async.IHttp);

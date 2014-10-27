@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../_references.d.ts" />
 
-import plat = require('../../lib/platypus/platypus');
+import plat = require('platypus');
 import BaseViewControl = require('../base/base.viewcontrol');
 
 class HomeViewControl extends BaseViewControl {
