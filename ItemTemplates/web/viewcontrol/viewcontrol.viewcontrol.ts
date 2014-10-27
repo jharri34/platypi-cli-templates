@@ -54,6 +54,8 @@ class %name%ViewControl extends BaseViewControl {
     dispose() { }
 }
 
-plat.register.viewControl('%registername%', %name%ViewControl);
+plat.register.viewControl('%registername%', %name%ViewControl, null, [
+    '/%name%'
+]);
 
 export = %name%ViewControl;
