@@ -1,4 +1,4 @@
-﻿/// <reference path="../../_references.ts" />
+﻿/// <reference path="../../_references.d.ts" />
 
 import plat = require('../../lib/platypus/platypus');
 import BaseViewControl = require('../base/base.viewcontrol');
