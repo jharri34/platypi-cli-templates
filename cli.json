@@ -1,0 +1,24 @@
+{
+	"version":  "0.0.1",
+	"templates": {
+		"projects": {
+			"web": "./ProjectTemplates/web",
+			"mobile": "./ProjectTemplates/mobile"
+		},
+		"controls":  {
+			"base": {
+				"attribute": "./ItemTemplates/base/AttributeControl",
+				"injectable": "./ItemTemplates/base/Injectable",
+				"model": "./ItemTemplates/base/Model",
+				"service": "./ItemTemplates/base/Service",
+				"templatecontrol": "./ItemTemplates/base/TemplateControl"
+			},
+			"mobile": {
+				"viewcontrol": "./ItemTemplates/mobile/viewcontrol"
+			},
+			"web": {
+				"viewcontrol": "./ItemTemplates/web/viewcontrol"
+			}
+		}
+	}
+}
