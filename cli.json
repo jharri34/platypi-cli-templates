@@ -1,5 +1,5 @@
 {
-	"version":  "0.0.2",
+	"version":  "0.0.3",
 	"templates": {
 		"projects": {
 			"web": "./ProjectTemplates/web",
@@ -11,6 +11,7 @@
 				"injectable": "./ItemTemplates/base/Injectable",
 				"model": "./ItemTemplates/base/Model",
 				"service": "./ItemTemplates/base/Service",
+                "repository" : "./ItemTemplates/base/Repository",
 				"templatecontrol": "./ItemTemplates/base/TemplateControl"
 			},
 			"mobile": {
