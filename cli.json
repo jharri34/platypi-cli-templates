@@ -1,5 +1,5 @@
 {
-	"version":  "0.0.3",
+	"version":  "0.0.4",
 	"templates": {
 		"projects": {
 			"web": "./ProjectTemplates/web",
@@ -20,6 +20,30 @@
 			"web": {
 				"viewcontrol": "./ItemTemplates/web/viewcontrol"
 			}
-		}
+		},
+        "projectStruct": [
+            "app",
+            "common",
+            "common/css",
+            "common/css/base",
+            "common/css/mixins",
+            "common/css/variables",
+            "common/assets",
+            "common/assets/fonts",
+            "common/assets/img",
+            "common/controls",
+            "common/injectables",
+            "lib",
+            "models",
+            "models/base",
+            "models/server",
+            "repositories",
+            "repositories/base",
+            "services",
+            "services/base",
+            "viewcontrols",
+            "viewcontrols/base",
+            "viewcontrols/home"
+        ]
 	}
 }
