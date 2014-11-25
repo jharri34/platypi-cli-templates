@@ -1,16 +1,17 @@
-// You can use the DEBUG variable to conditionally do tasks such as minification.
-var DEBUG = true,
-    path = require('path');
+/*
+ * PlatypiCLI Generated Gruntfile
+ */
+var DEBUG = true;
 
-module.exports = function (grunt) {
-    var clientFiles = [
+module.exports = function(grunt) {
+    var projectFiles = [
         './public/*.ts',
         './public/**/*.ts'
     ],
-       tsLintIgnores = [
-           '!./public/typings/**',
-           '!./public/lib/**'
-       ];
+    lintIgnoreFiles = [
+        '!./public/typings/**',
+        '!./public/lib/**'
+    ];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -63,7 +64,6 @@ module.exports = function (grunt) {
             },
             run: {
                 tasks: [
-                    'connect',
                     'watch'
                 ]
             }
@@ -99,7 +99,7 @@ module.exports = function (grunt) {
             bundle: {
                 options: {},
                 files: {
-                    './public/app.js.map': ['./public/app.js']
+                    './public/app.js.map': ['./public/app.js'],
                 }
             }
         },
@@ -115,31 +115,15 @@ module.exports = function (grunt) {
                 }
             }
         },
-        shell: {
-            bower: {
-                command: path.normalize('./node_modules/.bin/bower') + ' install'
-            },
-            tsd: {
-                command: [
-                    path.normalize('./node_modules/.bin/tsd') + ' update -so --config tsd.public.json'
-                ].join(' && ')
-            }
-        },
         tslint: {
             options: {
                 configuration: grunt.file.readJSON('tslint.json')
             },
-            files: {
-                src: clientFiles.concat(tsLintIgnores)
-            }
-        },
-        typescript: {
-            options: {
-                module: 'commonjs',
-                target: 'es5'
+            server: {
+                src: serverFiles.concat(tslintIgnores)
             },
             client: {
-                src: clientFiles
+                src: clientFiles.concat(tslintIgnores)
             }
         },
         uglify: {
@@ -156,6 +140,10 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            server: {
+                files: serverFiles,
+                tasks: ['tslint', 'typescript:server']
+            },
             client: {
                 files: clientFiles,
                 tasks: ['tslint', 'typescript:client']
@@ -168,10 +156,40 @@ module.exports = function (grunt) {
                 files: ['./public/**/*.js'],
                 tasks: ['bundle']
             }
-        }
+        },
+        tsd: {
+            refresh: {
+                options: {
+                    // execute a command
+                    command: 'reinstall',
+
+                    //optional: always get from HEAD
+                    latest: true,
+
+                    // specify config file
+                    config: './tsd.public.json',
+
+                    // experimental: options to pass to tsd.API
+                    opts: {
+                        // props from tsd.Options
+
+                    }
+                }
+            }
+        },
+        typescript: {
+            options: {
+                module: 'commonjs',
+                target: 'es5'
+            },
+            client: {
+                src: projectFiles
+            }
+        },
     });
 
-    /// Load tasks
+    grunt.loadNpmTasks('grunt-ts');
+    grunt.loadNpmTasks('grunt-tsd');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -181,12 +199,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-exorcise');
-    grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-tslint');
-    grunt.loadNpmTasks('grunt-typescript');
 
-
-    /// Register tasks
+    /// Register Grunt Tasks
+    // tasks: default, bundle, test, lint
 
     // Bundles the JS using browserify, also uglifies if we aren't debugging
     grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? ['exorcise', 'copy:map'] : ['uglify']));
@@ -194,15 +210,10 @@ module.exports = function (grunt) {
     // Concurrently compiles all the typescript/less, then bundles the JS with browserify
     grunt.registerTask('make', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
 
-    // Runs TSD
-    grunt.registerTask('tsd', ['shell:tsd']);
-
-    grunt.registerTask('bower', ['shell:bower']);
-
     // This task is where you can run anything you would need to install in order to have everything work
     // such as TSD/Bower
     grunt.registerTask('install', ['concurrent:install']);
-
-    /// Default task
-    grunt.registerTask('default', ['make', 'concurrent:run']);
+    
+    // Default Task, watches the directory for changes, rebuilds.
+    grunt.registerTask('default', ['make', 'concurrent:run'});
 };
