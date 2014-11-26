@@ -4,6 +4,9 @@
     "description": "%description%",
     "author": "%author%",
     "homepage": "%homepage%",
+    "scripts": {
+        "prepublish": "grunt install"
+    },
     "dependencies": {
         "platypus": "latest"
     },

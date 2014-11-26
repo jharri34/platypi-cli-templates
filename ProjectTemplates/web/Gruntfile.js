@@ -59,8 +59,7 @@ module.exports = function(grunt) {
             },
             install: {
                 tasks: [
-                    'tsd',
-                    'bower'
+                    'tsd'
                 ]
             },
             run: {
