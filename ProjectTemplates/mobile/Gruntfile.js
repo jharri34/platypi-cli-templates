@@ -46,7 +46,8 @@ module.exports = function(grunt) {
             },
             build: {
                 tasks: [
-                    'typescript:client',
+                    'tsd',
+                    'ts:client',
                     'less'
                 ]
             },
@@ -68,19 +69,6 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        copy: {
-            map: {
-                src: './public/app.js.map',
-                dest: './public/app.js.map',
-                options: {
-                    // Fixes the sourcemap to point to the correct directory
-                    process: function (content) {
-                        var regex = new RegExp(path.resolve(__dirname, 'public').replace(/\\/g, '/'), 'g');
-                        return content.replace(regex, '.');
-                    }
-                }
-            }
-        },
         cssmin: {
             combine: {
                 options: {
@@ -92,14 +80,6 @@ module.exports = function(grunt) {
                     './public/style.css': [
                         './public/common/css/main.css'
                     ]
-                }
-            }
-        },
-        exorcise: {
-            bundle: {
-                options: {},
-                files: {
-                    './public/app.js.map': ['./public/app.js'],
                 }
             }
         },
@@ -119,11 +99,8 @@ module.exports = function(grunt) {
             options: {
                 configuration: grunt.file.readJSON('tslint.json')
             },
-            server: {
-                src: serverFiles.concat(tslintIgnores)
-            },
             client: {
-                src: clientFiles.concat(tslintIgnores)
+                src: projectFiles.concat(lintIgnoreFiles)
             }
         },
         uglify: {
@@ -140,12 +117,8 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            server: {
-                files: serverFiles,
-                tasks: ['tslint', 'typescript:server']
-            },
             client: {
-                files: clientFiles,
+                files: projectFiles,
                 tasks: ['tslint', 'typescript:client']
             },
             less: {
@@ -168,24 +141,20 @@ module.exports = function(grunt) {
 
                     // specify config file
                     config: './tsd.public.json',
-
-                    // experimental: options to pass to tsd.API
-                    opts: {
-                        // props from tsd.Options
-
-                    }
                 }
             }
         },
-        typescript: {
+        ts: {
             options: {
+                target: 'es5',
                 module: 'commonjs',
-                target: 'es5'
+                sourceMap: DEBUG,
+                noImplicitAny: true
             },
             client: {
-                src: projectFiles
+                src: projectFiles.concat(lintIgnoreFiles)
             }
-        },
+        }
     });
 
     grunt.loadNpmTasks('grunt-ts');
@@ -198,14 +167,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-exorcise');
     grunt.loadNpmTasks('grunt-tslint');
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
 
     // Bundles the JS using browserify, also uglifies if we aren't debugging
-    grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? ['exorcise', 'copy:map'] : ['uglify']));
+    grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify']));
 
     // Concurrently compiles all the typescript/less, then bundles the JS with browserify
     grunt.registerTask('make', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
@@ -215,5 +183,5 @@ module.exports = function(grunt) {
     grunt.registerTask('install', ['concurrent:install']);
     
     // Default Task, watches the directory for changes, rebuilds.
-    grunt.registerTask('default', ['make', 'concurrent:run'});
+    grunt.registerTask('default', ['make', 'concurrent:run']);
 };

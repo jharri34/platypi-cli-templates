@@ -23,7 +23,6 @@
         "grunt-contrib-less": "latest",
         "grunt-contrib-uglify": "latest",
         "grunt-contrib-watch": "latest",
-        "grunt-exorcise": "latest",
         "grunt-tslint": "latest",
         "tsd": "latest"
     }
