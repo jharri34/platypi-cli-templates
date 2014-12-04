@@ -4,11 +4,15 @@
     "description": "%description%",
     "author": "%author%",
     "homepage": "%homepage%",
+    "main": "index.js",
     "scripts": {
         "prepublish": "grunt install"
     },
     "dependencies": {
-        "platypus": "latest"
+        "platypus": "latest",
+        "connect": "latest",
+        "serve-static": "latest",
+        "morgan": "latest"
     },
     "devDependencies": {
         "browserify": "latest",
@@ -27,6 +31,7 @@
         "grunt-contrib-uglify": "latest",
         "grunt-contrib-watch": "latest",
         "grunt-tslint": "latest",
+        "grunt-nodemon": "latest",
         "tsd": "latest"
     }
 }

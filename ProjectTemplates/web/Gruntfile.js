@@ -57,15 +57,19 @@ module.exports = function(grunt) {
                     'bundle'
                 ]
             },
-            install: {
-                tasks: [
-                    'tsd'
-                ]
-            },
             run: {
                 tasks: [
-                    'watch'
+                    'watch',
+                    'nodemon'
                 ]
+            }
+        },
+        nodemon: {
+            dev: {
+                script: 'index.js',
+                options: {
+                    watch: ['public']
+                }
             }
         },
         cssmin: {
@@ -167,6 +171,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-tslint');
+    grunt.loadNpmTasks('grunt-nodemon');
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
@@ -175,12 +180,10 @@ module.exports = function(grunt) {
     grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify']));
 
     // Concurrently compiles all the typescript/less, then bundles the JS with browserify
-    grunt.registerTask('make', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
+    grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
 
-    // This task is where you can run anything you would need to install in order to have everything work
-    // such as TSD/Bower
-    grunt.registerTask('install', ['concurrent:install']);
+    grunt.registerTask('run', ['concurrent:run']);
     
     // Default Task, watches the directory for changes, rebuilds.
-    grunt.registerTask('default', ['make', 'concurrent:run']);
+    grunt.registerTask('default', ['build', 'concurrent:run']);
 };
