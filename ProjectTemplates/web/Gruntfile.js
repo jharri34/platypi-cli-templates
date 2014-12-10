@@ -157,7 +157,31 @@ module.exports = function(grunt) {
             client: {
                 src: projectFiles.concat(lintIgnoreFiles)
             }
-        }
+        },
+        cordovacli: {
+            options: {
+                path: 'cordova'
+            },
+            create: {
+                command: 'create',
+                id: 'plat.web.test',
+                name: 'webtest'
+            },
+            add_platforms: {
+                command: 'platform',
+                action: 'add',
+                platforms: ['android']
+            },
+            add_plugins: {
+                command: 'plugin',
+                action: 'add',
+                plugins: [
+                    'network-information',
+                    'splashscreen',
+                    'org.apache.cordova.statusbar'
+                ]
+            }
+        }       
     });
 
     grunt.loadNpmTasks('grunt-ts');
@@ -172,6 +196,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-tslint');
     grunt.loadNpmTasks('grunt-nodemon');
+    grunt.loadNpmTasks('grunt-cordovacli');
+
+    grunt.registerTask('makeCordovaDirectory', 'Creates a directory for cordova projects.', function() {
+        grunt.file.mkdir('cordova/');
+        grunt.log.writeln('Created cordova directory.');
+    });
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
@@ -180,7 +210,7 @@ module.exports = function(grunt) {
     grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify']));
 
     // Concurrently compiles all the typescript/less, then bundles the JS with browserify
-    grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
+    grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle', 'makeCordovaDirectory']);
 
     grunt.registerTask('run', ['concurrent:run']);
     
