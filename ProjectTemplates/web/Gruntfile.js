@@ -208,7 +208,25 @@ module.exports = function(grunt) {
         grunt.log.writeln('Created cordova directory.');
     });
 
-    grunt.registerTask('setupCordova', ['makeCordovaDirectory', 'cordovacli:create']);
+    grunt.registerTask('addCordovaPlatform', 'Add platforms to a cordova project based on your dev OS.', function() {
+        // possible platforms 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
+
+        var cordovaTaskPlatformVar = 'cordovacli.add_platforms.options.platforms',
+            platforms = grunt.config(cordovaTaskPlatformVar);
+
+        if (process.platform === 'win32') {
+            platforms.push('up9');
+        } else if (process.platform === 'darwin') {
+            platforms.push('ios');
+        }
+
+        grunt.config.set(cordovaTaskPlatformVar, platforms);
+
+        grunt.log.writeln('Your OS is ' + (process.platform === 'darwin' ? 'OS X' : process.platform) 
+                           + ' so your target platforms are: ' + grunt.config('cordovacli.add_platforms.options.platforms'));
+    });
+
+    grunt.registerTask('setupCordova', ['makeCordovaDirectory', 'cordovacli:create', 'addCordovaPlatform', 'cordovacli:add_plugins']);
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
