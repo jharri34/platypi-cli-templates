@@ -6,7 +6,7 @@
     "homepage": "%homepage%",
     "main": "index.js",
     "scripts": {
-        "prepublish": "grunt install"
+        "prepublish": "./node_modules/.bin/grunt install"
     },
     "dependencies": {
         "platypus": "latest",
@@ -32,6 +32,7 @@
         "grunt-contrib-watch": "latest",
         "grunt-tslint": "latest",
         "grunt-nodemon": "latest",
-        "tsd": "latest"
+        "tsd": "latest",
+        "typescript": "latest"
     }
 }

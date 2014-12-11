@@ -46,7 +46,6 @@ module.exports = function(grunt) {
             },
             build: {
                 tasks: [
-                    'tsd',
                     'ts:client',
                     'less'
                 ]
@@ -205,6 +204,9 @@ module.exports = function(grunt) {
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
+    
+    // Installs any dependencies, can be used to do bower install. Currently does tsd.
+    grunt.registerTask('install', 'tsd');
 
     // Bundles the JS using browserify, also uglifies if we aren't debugging
     grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify']));
