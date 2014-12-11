@@ -164,8 +164,8 @@ module.exports = function(grunt) {
             create: {
                 options: {
                     command: 'create',
-                    id: 'plat.web.test',
-                    name: 'webtest'
+                    id: 'plat.%name%',
+                    name: '%name%'
                 }
             },
             add_platforms: {
