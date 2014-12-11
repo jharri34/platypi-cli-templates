@@ -162,23 +162,29 @@ module.exports = function(grunt) {
                 path: 'cordova'
             },
             create: {
-                command: 'create',
-                id: 'plat.web.test',
-                name: 'webtest'
+                options: {
+                    command: 'create',
+                    id: 'plat.web.test',
+                    name: 'webtest'
+                }
             },
             add_platforms: {
-                command: 'platform',
-                action: 'add',
-                platforms: ['android']
+                options: {
+                    command: 'platform',
+                    action: 'add',
+                    platforms: ['android']
+                }
             },
             add_plugins: {
-                command: 'plugin',
-                action: 'add',
-                plugins: [
-                    'network-information',
-                    'splashscreen',
-                    'org.apache.cordova.statusbar'
-                ]
+                options: {
+                    command: 'plugin',
+                    action: 'add',
+                    plugins: [
+                        'network-information',
+                        'splashscreen',
+                        'org.apache.cordova.statusbar'
+                    ]
+                }
             }
         }       
     });
