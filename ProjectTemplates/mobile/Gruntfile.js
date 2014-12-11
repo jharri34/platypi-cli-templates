@@ -208,17 +208,19 @@ module.exports = function(grunt) {
         grunt.log.writeln('Created cordova directory.');
     });
 
+    grunt.registerTask('setupCordova', ['makeCordovaDirectory', 'cordovacli:create']);
+
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
     
     // Installs any dependencies, can be used to do bower install. Currently does tsd.
-    grunt.registerTask('install', 'tsd');
+    grunt.registerTask('install', ['tsd', 'setupCordova']);
 
     // Bundles the JS using browserify, also uglifies if we aren't debugging
     grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify']));
 
     // Concurrently compiles all the typescript/less, then bundles the JS with browserify
-    grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle', 'makeCordovaDirectory']);
+    grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
 
     grunt.registerTask('run', ['concurrent:run']);
     
