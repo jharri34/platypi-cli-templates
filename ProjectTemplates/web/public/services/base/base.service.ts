@@ -134,14 +134,14 @@ class BaseService<SM extends server.models.IBaseModel> {
     _buildUrl(...args: Array<any>) {
         var url = this.host + this.baseRoute;
 
-        this.utils.forEach(args, (path) => {
+        this.utils.forEach((path) => {
             if (path[0] === '?' || path[0] === '&') {
                 url += path;
                 return;
             }
 
             url += '/' + path;
-        });
+        }, args);
 
         return url;
     }

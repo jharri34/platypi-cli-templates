@@ -10,9 +10,9 @@ class BaseFactory<PM extends models.IBaseModel, SM extends server.models.IBaseMo
             data = [];
         }
 
-        return this.utils.map(data, (value) => {
+        return this.utils.map((value) => {
             return this.create(value);
-        });
+        }, data);
     }
 
     create(data: SM): PM;
