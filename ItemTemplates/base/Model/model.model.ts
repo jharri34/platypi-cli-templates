@@ -1,9 +1,9 @@
 ﻿/// <reference path="../../_references.d.ts" />
 
-import BaseFactory = require('../base/base.model');
 import plat = require('platypus');
+%import%
 
-class %name%Factory extends BaseFactory <models.I%name%, server.models.IBaseModel> { }
+class %name%Factory %extends% { }
 
 plat.register.injectable('%registername%Factory', %name%Factory, null, plat.register.injectable.FACTORY);
 

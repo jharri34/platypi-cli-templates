@@ -1,9 +1,9 @@
 /// <reference path="../../_references.d.ts" />
 
 import plat = require('platypus');
-import BaseRepository = require('../base/base.repository');
+%import%
 
-class %name%Repository extends BaseRepository<models.IBaseModel, server.models.IBaseModel> { }
+class %name%Repository %extends% { }
 
 plat.register.injectable('%registeredname%Repository', %name%Repository, []);
 

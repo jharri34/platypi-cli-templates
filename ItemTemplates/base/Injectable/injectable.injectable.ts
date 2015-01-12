@@ -1,8 +1,9 @@
 /// <reference path="../../_references.d.ts" />
 
 import plat = require('platypus');
+%import%
 
-class %name%Injectable { }
+class %name%Injectable %extends% { }
 
 /**
     * This is how you register an injectable with the framework.

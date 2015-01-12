@@ -1,9 +1,9 @@
 /// <reference path="../../_references.d..ts" />
 
 import plat = require('platypus');
-import BaseService = require('../base/base.service');
+%import%
 
-class %name%Service extends BaseService<server.models.IBaseModel> {
+class %name%Service %extends% {
     constructor() {
         super(null, '/');
     }

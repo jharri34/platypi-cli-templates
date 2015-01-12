@@ -1,9 +1,9 @@
 ﻿/// <reference path="../../_references.d.ts" />
 
 import plat = require('platypus');
-import BaseViewControl = require('../base/base.viewcontrol');
+%import%
 
-class %name%ViewControl extends BaseViewControl {
+class %name%ViewControl %extends% {
     /**
      * This is the property that indicates where the template HTML for this control exists.
      */

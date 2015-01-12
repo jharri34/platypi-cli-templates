@@ -1,8 +1,9 @@
 /// <reference path="../../_references.d.ts" />
 
 import plat = require('platypus');
+%import%
 
-class %name%AttributeControl extends plat.controls.AttributeControl {
+class %name%AttributeControl %extends% {
     /**
         * The initialize event method for a control. This is event is called prior to compilation.
         */

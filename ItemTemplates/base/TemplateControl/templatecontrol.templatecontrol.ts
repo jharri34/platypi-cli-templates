@@ -1,8 +1,9 @@
 /// <reference path="../../_references.d.ts" />
 
 import plat = require('platypus');
+%import%
 
-class %name%TemplateControl extends plat.ui.TemplateControl {
+class %name%TemplateControl %extends% {
     /**
         * A method called for plat.ui.ITemplateControls to set their template. During this method a control should
         * ready its template for compilation. Whatever is in the control's element (or elementNodes if replaceWith
