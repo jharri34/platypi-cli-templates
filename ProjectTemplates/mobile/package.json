@@ -9,7 +9,7 @@
         "prepublish": "./node_modules/.bin/grunt install"
     },
     "dependencies": {
-        "platypus": "latest",
+        "platypus": "0.9.9",
         "connect": "latest",
         "serve-static": "latest",
         "morgan": "latest"
@@ -21,8 +21,8 @@
         "grunt-browserify": "latest",
         "grunt-cli": "latest",
         "grunt-ts": "latest",
-        "grunt-tsd" : "latest",
-        "grunt-browserify": "latest",
+        "grunt-tsd": "latest",
+        "grunt-cordovacli": "latest",
         "grunt-concurrent": "latest",
         "grunt-contrib-clean": "latest",
         "grunt-contrib-copy": "latest",
