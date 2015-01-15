@@ -34,5 +34,42 @@
         "grunt-nodemon": "latest",
         "tsd": "latest",
         "typescript": "latest"
+    },
+    "platypi": {
+        "viewcontrols": [
+            {
+                "name": "base",
+                "type": "webviewcontrol"
+            },
+            {
+                "name": "home",
+                "type": "webviewcontrol"
+            }
+        ],
+        "injectables": [],
+        "services": [
+            {
+                "name": "base",
+                "type": "service"
+            }
+        ],
+        "repositories": [
+            {
+                "name": "base",
+                "type": "repository"
+            }
+        ],
+        "models": [
+            {
+                "name": "base",
+                "type": "model"
+            },
+            {
+                "name": "server",
+                "type": "model"
+            }
+        ],
+        "templatecontrols": [],
+        "attributecontrols": []
     }
 }
