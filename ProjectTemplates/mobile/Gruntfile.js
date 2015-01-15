@@ -221,6 +221,30 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-cordovacli');
 
+    grunt.registerTask('appendCordovaScript', 'Appends the cordova.js script reference to the project index.html file', function () {
+        // <script type="text/javascript" src="cordova.js"></script>
+
+        // index.html location
+        var projectIndexLocation = 'cordova/www/index.html';
+
+        // index.html contents
+        var projectIndex = grunt.file.read(projectIndexLocation);
+
+        if (projectIndex.indexOf('src="cordova.js"') === -1) {
+            var beforeBodyEnd = projectIndex.slice(0, projectIndex.indexOf('</body>')),
+                bodyEndAndBeyond = projectIndex.slice(projectIndex.indexOf('</body>')),
+                newProjectIndex = projectIndex; // default to current state incase something goes wrong
+
+            beforeBodyEnd = beforeBodyEnd + '<script type="text/javascript" src="cordova.js"></script>';
+
+            newProjectIndex = beforeBodyEnd + '\n' + bodyEndAndBeyond;
+
+            grunt.file.write(projectIndexLocation, newProjectIndex);
+
+            grunt.log.writeln('Appended cordova.js to Project Index at: ' + projectIndexLocation)
+        }
+    });
+
     grunt.registerTask('makeCordovaDirectory', 'Creates a directory for cordova projects.', function() {
         grunt.file.mkdir('cordova/');
         grunt.log.writeln('Created cordova directory.');
@@ -246,7 +270,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('setupCordova', ['makeCordovaDirectory', 'cordovacli:create', 'addCordovaPlatform', 'cordovacli:add_plugins']);
 
-    grunt.registerTask('cordovaCopy', ['clean:cordovaProject', 'build', 'copy:cordovaProjectFiles']);
+    grunt.registerTask('cordovaCopy', ['clean:cordovaProject', 'build', 'copy:cordovaProjectFiles', 'appendCordovaScript']);
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
