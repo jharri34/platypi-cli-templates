@@ -38,7 +38,25 @@ module.exports = function(grunt) {
                 './public/app.js.map',
                 './public/style.css',
                 './public/style.css.map'
+            ],
+            cordovaProject: [
+                './cordova/www'
             ]
+        },
+        copy: {
+            cordovaProjectFiles: {
+                files: [
+                    {
+                        expand: true, flatten: true,
+                        src: [
+                            './public/index.html',
+                            './public/app.js',
+                            './public/style.css'
+                        ],
+                        dest: './cordova/www', filter: 'isFile'
+                    },
+                ]
+            }
         },
         concurrent: {
             options: {
@@ -227,6 +245,8 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('setupCordova', ['makeCordovaDirectory', 'cordovacli:create', 'addCordovaPlatform', 'cordovacli:add_plugins']);
+
+    grunt.registerTask('cordovaCopy', ['clean:cordovaProject', 'build', 'copy:cordovaProjectFiles']);
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
