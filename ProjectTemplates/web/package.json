@@ -36,6 +36,7 @@
         "typescript": "latest"
     },
     "platypi": {
+        "type": "web",
         "viewcontrols": [
             {
                 "name": "base",
@@ -46,7 +47,7 @@
                 "type": "webviewcontrol"
             }
         ],
-        "injectables": [],
+        "injectables": [ ],
         "services": [
             {
                 "name": "base",
@@ -69,7 +70,7 @@
                 "type": "model"
             }
         ],
-        "templatecontrols": [],
-        "attributecontrols": []
+        "templatecontrols": [ ],
+        "attributecontrols": [ ]
     }
 }
