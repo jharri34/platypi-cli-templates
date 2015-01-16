@@ -203,6 +203,11 @@ module.exports = function(grunt) {
                         'org.apache.cordova.statusbar'
                     ]
                 }
+            },
+            build: {
+                options: {
+                    command: 'build'
+                }
             }
         }       
     });
@@ -257,7 +262,7 @@ module.exports = function(grunt) {
             platforms = grunt.config(cordovaTaskPlatformVar);
 
         if (process.platform === 'win32') {
-            platforms.push('up9');
+            platforms.push('wp8');
         } else if (process.platform === 'darwin') {
             platforms.push('ios');
         }
@@ -266,6 +271,8 @@ module.exports = function(grunt) {
 
         grunt.log.writeln('Your OS is ' + (process.platform === 'darwin' ? 'OS X' : process.platform) 
                            + ' so your target platforms are: ' + grunt.config('cordovacli.add_platforms.options.platforms'));
+
+        grunt.task.run('cordovacli:add_platforms');
     });
 
     grunt.registerTask('setupCordova', ['makeCordovaDirectory', 'cordovacli:create', 'addCordovaPlatform', 'cordovacli:add_plugins']);
@@ -283,6 +290,8 @@ module.exports = function(grunt) {
 
     // Concurrently compiles all the typescript/less, then bundles the JS with browserify
     grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
+
+    grunt.registerTask('build-cordova', ['cordovaCopy', 'cordovacli:build']);
 
     grunt.registerTask('run', ['concurrent:run']);
     
