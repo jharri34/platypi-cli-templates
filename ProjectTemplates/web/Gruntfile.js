@@ -182,7 +182,7 @@ module.exports = function(grunt) {
             create: {
                 options: {
                     command: 'create',
-                    id: 'plat.%name%',
+                    id: '%cordovaid%',
                     name: '%name%'
                 }
             },
