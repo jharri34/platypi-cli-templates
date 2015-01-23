@@ -262,7 +262,7 @@ module.exports = function(grunt) {
             platforms = grunt.config(cordovaTaskPlatformVar);
 
         if (process.platform === 'win32') {
-            platforms.push('wp8');
+            platforms.push('windows');
         } else if (process.platform === 'darwin') {
             platforms.push('ios');
         }
