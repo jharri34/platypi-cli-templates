@@ -6,7 +6,7 @@ import plat = require('platypus');
 class %name%Injectable %extends% { }
 
 /**
-    * This is how you register an injectable with the framework.
-    * Injectables can have dependencies too!
-    */
+ * This is how you register an injectable with the framework.
+ * Injectables can have dependencies too!
+ */
 plat.register.injectable('%registername%', %name%Injectable);

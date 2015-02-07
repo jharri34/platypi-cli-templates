@@ -6,10 +6,10 @@
     "homepage": "%homepage%",
     "main": "index.js",
     "scripts": {
-        "prepublish": "./node_modules/.bin/grunt install"
+        "prepublish": "./node_modules/.bin/grunt install --force"
     },
     "dependencies": {
-        "platypus": "0.9.9",
+        "platypus": "0.10.5",
         "connect": "latest",
         "serve-static": "latest",
         "morgan": "latest"
@@ -30,9 +30,10 @@
         "grunt-contrib-less": "latest",
         "grunt-contrib-uglify": "latest",
         "grunt-contrib-watch": "latest",
-        "grunt-tslint": "latest",
         "grunt-nodemon": "latest",
-        "tsd": "latest",
+        "grunt-shell": "latest",
+        "grunt-tslint": "latest",
+        "tsd": "next",
         "typescript": "latest"
     },
     "platypi": {

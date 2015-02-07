@@ -1,5 +1,4 @@
 /// <reference path="typings/tsd.d.ts" />
-/// <reference path="../node_modules/platypus/platypus-node.d.ts" />
 
 // models
 /// <reference path="models/server/iserver.model.d.ts" />

@@ -1,7 +1,9 @@
 /*
  * PlatypiCLI Generated Gruntfile
  */
-var DEBUG = true;
+var DEBUG = true,
+    path = require('path'),
+    nodePath = path.normalize('./node_modules/.bin/')
 
 module.exports = function(grunt) {
     var projectFiles = [
@@ -150,6 +152,11 @@ module.exports = function(grunt) {
                 tasks: ['bundle']
             }
         },
+        shell: {
+            tsd: {
+                command: nodePath + 'tsd link --config tsd.public.json'
+            }
+        },
         tsd: {
             refresh: {
                 options: {
@@ -223,6 +230,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-tslint');
+    grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-cordovacli');
 
@@ -283,7 +291,8 @@ module.exports = function(grunt) {
     // tasks: default, bundle, test, lint
     
     // Installs any dependencies, can be used to do bower install. Currently does tsd.
-    grunt.registerTask('install', ['tsd', 'setupCordova']);
+    grunt.registerTask('tsd-install', ['shell:tsd', 'tsd']);
+    grunt.registerTask('install', ['tsd-install', 'setupCordova']);
 
     // Bundles the JS using browserify, also uglifies if we aren't debugging
     grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify']));

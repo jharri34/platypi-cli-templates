@@ -12,6 +12,3 @@ require('./scripts');
 
 // app
 require('./app/app');
-
-// viewcontrols
-require('./viewcontrols/home/home.viewcontrol');

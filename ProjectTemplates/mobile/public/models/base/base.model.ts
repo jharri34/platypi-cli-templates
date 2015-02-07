@@ -3,14 +3,18 @@
 import plat = require('platypus');
 
 class BaseFactory<PM extends models.IBaseModel, SM extends server.models.IBaseModel> {
-    utils = plat.acquire(plat.IUtils);
+    protected static _inject: any = {
+        _utils: plat.Utils
+    };
+
+    protected _utils: plat.Utils;
 
     all(data: Array<SM>): Array<PM> {
-        if (!this.utils.isArray(data)) {
+        if (!this._utils.isArray(data)) {
             data = [];
         }
 
-        return this.utils.map((value) => {
+        return this._utils.map((value) => {
             return this.create(value);
         }, data);
     }
@@ -18,31 +22,35 @@ class BaseFactory<PM extends models.IBaseModel, SM extends server.models.IBaseMo
     create(data: SM): PM;
     create(data: PM, forServer: boolean): SM;
     create(data: any, forServer?: boolean): any {
-        if (!this.utils.isObject(data)) {
+        if (!this._utils.isObject(data)) {
             return data;
         }
 
-        if (this.utils.isBoolean(forServer) && forServer) {
-            return this.createForServer(data);
+        if (this._utils.isBoolean(forServer) && forServer) {
+            return this._createForServer(data);
         }
 
-        return this.createForClient(data);
+        return this._createForClient(data);
     }
 
     update(data: PM): SM {
         return this.create(data, true);
     }
 
-    createForServer(data: PM): SM {
-        return <any>{
-            id: data.id
-        };
+    /**
+     * This is a virtual method. Every class that inherits this class should provide 
+     * its own implementation of this method.
+     */
+    protected _createForServer(data: PM): SM {
+        return <any>{};
     }
 
-    createForClient(data: SM): PM {
-        return <any>{
-            id: data.id
-        };
+    /**
+     * This is a virtual method. Every class that inherits this class should provide 
+     * its own implementation of this method.
+     */
+    protected _createForClient(data: SM): PM {
+        return <any>{};
     }
 }
 

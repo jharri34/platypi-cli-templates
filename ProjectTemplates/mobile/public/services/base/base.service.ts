@@ -2,16 +2,22 @@
 
 import plat = require('platypus');
 
-class BaseService<SM extends server.models.IBaseModel> {
-    http = plat.acquire(plat.async.IHttp);
-    Promise = plat.acquire(plat.async.IPromise);
-    utils = plat.acquire(plat.IUtils);
+class BaseService {
+    protected static _inject: any = {
+        _http: plat.async.Http,
+        _Promise: plat.async.IPromise,
+        _utils: plat.Utils
+    };
+
+    protected _http: plat.async.Http;
+    protected _Promise: plat.async.IPromise;
+    protected _utils: plat.Utils;
 
     host: string;
     baseRoute: string;
 
     constructor(host?: string, baseRoute?: string) {
-        if (!this.utils.isString(host)) {
+        if (!this._utils.isString(host)) {
             host = '';
         }
 
@@ -23,7 +29,7 @@ class BaseService<SM extends server.models.IBaseModel> {
             host = host + '/';
         }
 
-        if (!this.utils.isString(baseRoute)) {
+        if (!this._utils.isString(baseRoute)) {
             baseRoute = '';
         }
 
@@ -35,106 +41,66 @@ class BaseService<SM extends server.models.IBaseModel> {
         this.baseRoute = baseRoute;
     }
 
-    create(data: SM, contentType?: string): plat.async.IThenable<string> {
-        return this._post<string>({
-            contentType: contentType || this.http.contentType.JSON,
-            data: data
-        });
-    }
-
-    all(): plat.async.IThenable<Array<SM>> {
-        return this._get<Array<SM>>();
-    }
-
-    read(id: string): plat.async.IThenable<SM> {
-        return this._get<SM>(id);
-    }
-
-    update(data: SM, contentType?: string): plat.async.IThenable<boolean> {
-        return this._put<boolean>({
-            contentType: contentType || this.http.contentType.JSON,
-            data: data
-        }, data.id);
-    }
-
-    destroy(id: string): plat.async.IThenable<void> {
-        return this._delete<void>(id);
-    }
-
-    _get<T>(...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _get<T>(...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _get<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _get<T>(options?: ajax.IHttpConfig, ...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _get<T>(options?: any, ...urlParams: Array<any>): plat.async.IAjaxThenable<T> {
+    protected _get<T>(...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _get<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _get<T>(options?: any, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T> {
         return this._do<T>('GET', options, urlParams);
     }
 
-    _put<T>(...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _put<T>(...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _put<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _put<T>(options?: ajax.IHttpConfig, ...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _put<T>(options?: any, ...urlParams: Array<any>): plat.async.IAjaxThenable<T> {
+    protected _put<T>(...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _put<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _put<T>(options?: any, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T> {
         return this._do<T>('PUT', options, urlParams);
     }
 
-    _post<T>(...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _post<T>(...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _post<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _post<T>(options?: ajax.IHttpConfig, ...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _post<T>(options?: any, ...urlParams: Array<any>): plat.async.IAjaxThenable<T> {
+    protected _post<T>(...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _post<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _post<T>(options?: any, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T> {
         return this._do<T>('POST', options, urlParams);
     }
 
-    _delete<T>(...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _delete<T>(...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _delete<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string>): plat.async.IAjaxThenable<T>;
-    _delete<T>(options?: ajax.IHttpConfig, ...urlParams: Array<number>): plat.async.IAjaxThenable<T>;
-    _delete<T>(options?: any, ...urlParams: Array<any>): plat.async.IAjaxThenable<T> {
+    protected _delete<T>(...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _delete<T>(options?: ajax.IHttpConfig, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _delete<T>(options?: any, ...urlParams: Array<string | number>): plat.async.IAjaxThenable<T> {
         return this._do<T>('DELETE', options, urlParams);
     }
 
-    _do<T>(method: string, urlParam?: string, urlParams?: Array<string>): plat.async.IAjaxThenable<T>;
-    _do<T>(method: string, options?: ajax.IHttpConfig, urlParams?: Array<string>): plat.async.IAjaxThenable<T>;
-    _do<T>(method: string, options?: any, urlParams: Array<string> = []): plat.async.IAjaxThenable<T> {
-        if (!this.utils.isObject(options)) {
-            if (!this.utils.isUndefined(options)) {
+    protected _do<T>(method: string, urlParam?: string, urlParams?: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _do<T>(method: string, options?: ajax.IHttpConfig, urlParams?: Array<string | number>): plat.async.IAjaxThenable<T>;
+    protected _do<T>(method: string, options?: any, urlParams: Array<string | number> = []): plat.async.IAjaxThenable<T> {
+        if (!this._utils.isObject(options)) {
+            if (!this._utils.isUndefined(options)) {
                 urlParams.unshift(options);
             }
 
             options = {};
         }
 
-        return this._json<T>(this.utils.extend({
+        return this._json<T>(this._utils.extend({
             url: this._buildUrl.apply(this, urlParams),
             method: method
         }, options));
     }
 
-    _json<T>(options: plat.async.IHttpConfig): plat.async.IAjaxThenable<T> {
-        return this.http.json<ajax.IResponseBody>(options).then((result) => {
-            return result.response.data;
+    protected _json<T>(options: plat.async.IHttpConfig): plat.async.IAjaxThenable<T> {
+        return this._http.json<any>(options).then((result: any) => {
+            return result.response;
         }, (result) => {
             this._handleError(result.response);
         });
     }
 
-    _handleError(response: ajax.IResponseBody) {
-        switch (response.status) {
-            case 'fail':
-                throw response.data;
-            case 'error':
-                console.log(response.message);
-                break;
-        }
+    protected _handleError(response: any) {
+        console.log(response.message);
     }
 
     /**
      * Builds a url with the arguments joined with '/'
      */
-    _buildUrl(...args: Array<any>) {
-        var url = this.host + this.baseRoute;
+    protected _buildUrl(...args: Array<any>) {
+        var url: string = this.host + this.baseRoute;
 
-        this.utils.forEach((path) => {
+        this._utils.forEach((path) => {
             if (path[0] === '?' || path[0] === '&') {
                 url += path;
                 return;

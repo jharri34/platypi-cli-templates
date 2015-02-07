@@ -2,7 +2,6 @@
 	"version":  "0.1.7",
 	"templates": {
 		"projects": {
-			"web": "./ProjectTemplates/web",
 			"mobile": "./ProjectTemplates/mobile"
 		},
 		"controls":  {
@@ -16,9 +15,6 @@
 			},
 			"mobile": {
 				"viewcontrol": "./ItemTemplates/mobile/viewcontrol"
-			},
-			"web": {
-				"viewcontrol": "./ItemTemplates/web/viewcontrol"
 			}
 		},
         "controlLocation": {

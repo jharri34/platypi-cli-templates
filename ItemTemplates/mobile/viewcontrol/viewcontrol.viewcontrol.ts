@@ -34,11 +34,28 @@ class %name%ViewControl %extends% {
     loaded() { }
 
     /**
+     * This event is fired when a navigation state has been matched for this control. 
+     * In this method you can return a boolean or Promise of a boolean indicating whether 
+     * or not it is possible to navigate to this control in the current context of the app.
+     * You must explicitly return false or a Promise of false to prevent navigation.
+     */
+    canNavigateTo(parameters: any, query: any) { }
+
+    /**
+     * This event is fired when a navigation state has been matched that is outside the context
+     * for this control. In this method you can return a boolean or Promise of a boolean 
+     * indicating whether or not it is possible to navigate from this control in the current 
+     * context of the app. This can be useful for prompting the user to save state before navigating. 
+     * You must explicitly return false or a Promise of false to prevent navigation.
+     */
+    canNavigateFrom() { }
+
+    /**
      * This event is fired when this control is navigated to directly using the 
      * navigator.navigate method on a view control. The parameter corresponds to 
      * an object sent from the previous view control during navigation.
      */
-    navigatedTo(parameter) { }
+    navigatedTo(parameters: any, query: any) { }
 
     /**
      * This event is fired when you are navigating away from this view control to another 
