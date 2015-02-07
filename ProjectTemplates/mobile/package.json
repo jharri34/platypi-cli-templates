@@ -33,8 +33,7 @@
         "grunt-nodemon": "latest",
         "grunt-shell": "latest",
         "grunt-tslint": "latest",
-        "tsd": "next",
-        "typescript": "latest"
+        "tsd": "next"
     },
     "platypi": {
         "type": "mobile",
