@@ -36,7 +36,7 @@
         "tsd": "next"
     },
     "platypi": {
-        "type": "mobile",
+        "projectType": "mobile",
         "viewcontrols": [
             {
                 "name": "base",
