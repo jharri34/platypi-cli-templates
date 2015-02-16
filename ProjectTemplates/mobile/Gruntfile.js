@@ -113,7 +113,7 @@ module.exports = function(grunt) {
                     sourceMap: DEBUG
                 },
                 files: {
-                    'public/style.css': 'public/common/css/main.less'
+                    'public/common/css/main.css': 'public/common/css/main.less'
                 }
             }
         },
