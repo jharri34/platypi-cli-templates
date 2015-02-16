@@ -163,7 +163,7 @@ module.exports = function (grunt) {
         watch: {
             client: {
                 files: projectFiles,
-                tasks: ['tslint', 'typescript:client']
+                tasks: ['tslint', 'ts:client']
             },
             less: {
                 files: ['./public/**/*.less'],
