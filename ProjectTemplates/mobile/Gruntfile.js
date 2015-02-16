@@ -3,9 +3,26 @@
  */
 var DEBUG = true,
     path = require('path'),
+    stringify = require('stringify'),
     nodePath = path.normalize('./node_modules/.bin/')
 
-module.exports = function(grunt) {
+stringify = stringify({
+    extensions: ['.html'],
+    minify: false,
+    minifier: {
+        extensions: ['.html'],
+        options: {
+            collapseWhitespace: true,
+            preserveLineBreaks: false,
+            collapseBooleanAttributes: true,
+            removeAttributeQuotes: false,
+            removeRedundantAttributes: true,
+            caseSensitive: true
+        }
+    }
+}).bind(stringify);
+
+module.exports = function (grunt) {
     var projectFiles = [
         './public/*.ts',
         './public/**/*.ts'
@@ -27,7 +44,12 @@ module.exports = function(grunt) {
                     browserifyOptions: {
                         debug: DEBUG
                     },
-                    transform: ['deamdify']
+                    transform: [
+                        function (file) {
+                            return stringify(file);
+                        },
+                        'deamdify'
+                    ]
                 }
             }
         },
@@ -216,7 +238,7 @@ module.exports = function(grunt) {
                     command: 'build'
                 }
             }
-        }       
+        }
     });
 
     grunt.loadNpmTasks('grunt-ts');
@@ -258,12 +280,12 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('makeCordovaDirectory', 'Creates a directory for cordova projects.', function() {
+    grunt.registerTask('makeCordovaDirectory', 'Creates a directory for cordova projects.', function () {
         grunt.file.mkdir('cordova/');
         grunt.log.writeln('Created cordova directory.');
     });
 
-    grunt.registerTask('addCordovaPlatform', 'Add platforms to a cordova project based on your dev OS.', function() {
+    grunt.registerTask('addCordovaPlatform', 'Add platforms to a cordova project based on your dev OS.', function () {
         // possible platforms 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
 
         var cordovaTaskPlatformVar = 'cordovacli.add_platforms.options.platforms',
@@ -277,7 +299,7 @@ module.exports = function(grunt) {
 
         grunt.config.set(cordovaTaskPlatformVar, platforms);
 
-        grunt.log.writeln('Your OS is ' + (process.platform === 'darwin' ? 'OS X' : process.platform) 
+        grunt.log.writeln('Your OS is ' + (process.platform === 'darwin' ? 'OS X' : process.platform)
                            + ' so your target platforms are: ' + grunt.config('cordovacli.add_platforms.options.platforms'));
 
         grunt.task.run('cordovacli:add_platforms');
@@ -289,7 +311,7 @@ module.exports = function(grunt) {
 
     /// Register Grunt Tasks
     // tasks: default, bundle, test, lint
-    
+
     // Installs any dependencies, can be used to do bower install. Currently does tsd.
     grunt.registerTask('tsd-install', ['shell:tsd', 'tsd']);
     grunt.registerTask('install', ['tsd-install', 'setupCordova']);
@@ -303,7 +325,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build-cordova', ['cordovaCopy', 'cordovacli:build']);
 
     grunt.registerTask('run', ['concurrent:run']);
-    
+
     // Default Task, watches the directory for changes, rebuilds.
     grunt.registerTask('default', ['build', 'concurrent:run']);
 };
