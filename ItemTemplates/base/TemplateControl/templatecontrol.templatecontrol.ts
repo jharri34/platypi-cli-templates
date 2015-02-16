@@ -5,11 +5,9 @@ import plat = require('platypus');
 
 class %name%TemplateControl %extends% {
     /**
-     * A method called for TemplateControls to set their template. During this method a control should
-     * ready its template for compilation. Whatever is in the control's element after this method's execution 
-     * will be compiled and appear on the DOM.
+     * This is the property that indicates where the template HTML for this control exists.
      */
-    setTemplate() { }
+    templateUrl = require('./%name%.templatecontrol.html');
 
     /**
      * The loaded event method for a control. This event is fired after a control has been completely loaded,
