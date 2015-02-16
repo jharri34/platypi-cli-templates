@@ -7,7 +7,7 @@ class %name%TemplateControl %extends% {
     /**
      * This is the property that indicates where the template HTML for this control exists.
      */
-    templateUrl = require('./%name%.templatecontrol.html');
+    templateUrl = require('./%lowername%.templatecontrol.html');
 
     /**
      * The loaded event method for a control. This event is fired after a control has been completely loaded,
