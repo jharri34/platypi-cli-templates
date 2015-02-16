@@ -70,7 +70,12 @@
                 "type": "model"
             }
         ],
-        "templatecontrols": [ ],
+        "templatecontrols": [
+            {
+                "name": "base",
+                "type": "templatecontrol"
+            }
+        ],
         "attributecontrols": [ ]
     }
 }
