@@ -1,6 +1,7 @@
 /// <reference path='../_references.d.ts' />
 
 import plat = require('platypus');
+import platui = require('platypusui');
 import HomeViewControl = require('../viewcontrols/home/home.viewcontrol');
 
 export class App extends plat.App {

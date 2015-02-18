@@ -15,6 +15,7 @@
         "morgan": "latest"
     },
     "devDependencies": {
+        "platypusui":  "latest",
         "stringify": "^3.1.0",
         "browserify": "latest",
         "deamdify": "latest",
@@ -37,7 +38,7 @@
         "tsd": "next"
     },
     "platypi": {
-        "templatesVersion":  "0.1.9",
+        "templatesVersion":  "0.2.1",
         "projectType": "mobile",
         "viewcontrols": [
             {

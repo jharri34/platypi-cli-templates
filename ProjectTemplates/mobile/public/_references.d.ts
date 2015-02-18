@@ -1,3 +1,4 @@
+/// <reference path="../node_modules/platypusui/platypusui.d.ts" />
 /// <reference path="typings/tsd.d.ts" />
 
 // models
