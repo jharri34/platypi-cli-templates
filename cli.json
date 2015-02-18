@@ -1,5 +1,5 @@
 {
-	"version":  "0.1.9",
+	"version":  "0.2.0",
 	"templates": {
 		"projects": {
 			"mobile": "./ProjectTemplates/mobile"
@@ -8,7 +8,7 @@
 			"base": {
 				"attribute": "./ItemTemplates/base/AttributeControl",
 				"injectable": "./ItemTemplates/base/Injectable",
-				"model": "./ItemTemplates/base/Model",
+				"factory": "./ItemTemplates/base/Factory",
 				"service": "./ItemTemplates/base/Service",
                 "repository" : "./ItemTemplates/base/Repository",
 				"templatecontrol": "./ItemTemplates/base/TemplateControl"
@@ -20,7 +20,7 @@
         "controlLocation": {
            "attribute": "common/controls",
            "injectable": "common/injectables",
-           "model": "models",
+           "factory": "factories",
            "service": "services",
            "repository": "repositories",
            "templatecontrol": "common/controls",
@@ -39,9 +39,9 @@
             "common/controls",
             "common/injectables",
             "lib",
-            "models",
-            "models/base",
-            "models/server",
+            "factories",
+            "factories/base",
+            "factories/server",
             "repositories",
             "repositories/base",
             "services",

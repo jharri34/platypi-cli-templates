@@ -62,14 +62,14 @@
                 "type": "repository"
             }
         ],
-        "models": [
+        "factories": [
             {
                 "name": "base",
                 "type": "factory"
             },
             {
                 "name": "server",
-                "type": "model"
+                "type": "factory"
             }
         ],
         "templatecontrols": [

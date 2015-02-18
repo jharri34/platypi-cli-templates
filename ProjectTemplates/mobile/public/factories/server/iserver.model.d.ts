@@ -1,3 +1,3 @@
 ﻿declare module server.models {
-    interface IBaseModel {}
+    interface IBaseFactory {}
 }

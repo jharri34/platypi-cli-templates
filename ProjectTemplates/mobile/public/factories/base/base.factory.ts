@@ -2,7 +2,7 @@
 
 import plat = require('platypus');
 
-class BaseFactory<PM extends models.IBaseModel, SM extends server.models.IBaseModel> {
+class BaseFactory<PM extends models.IBaseFactory, SM extends server.models.IBaseFactory> {
     protected static _inject: any = {
         _utils: plat.Utils
     };
