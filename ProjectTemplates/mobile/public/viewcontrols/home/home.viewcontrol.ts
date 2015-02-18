@@ -4,7 +4,7 @@ import plat = require('platypus');
 import BaseViewControl = require('../base/base.viewcontrol');
 
 class HomeViewControl extends BaseViewControl {
-    templateUrl = require('./home.viewcontrol.html');
+    templateString = require('./home.viewcontrol.html');
 
     context = {};
 }

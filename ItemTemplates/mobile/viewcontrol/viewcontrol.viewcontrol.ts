@@ -7,7 +7,7 @@ class %name%ViewControl %extends% {
     /**
      * This is the property that indicates where the template HTML for this control exists.
      */
-    templateUrl = require('./%lowername%.viewcontrol.html');
+    templateString = require('./%lowername%.viewcontrol.html');
 
     /**
      * The context variable on a control corresponds to what can be used 
