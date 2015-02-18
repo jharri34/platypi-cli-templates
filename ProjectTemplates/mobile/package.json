@@ -15,6 +15,7 @@
         "morgan": "latest"
     },
     "devDependencies": {
+        "stringify": "^3.1.0",
         "browserify": "latest",
         "deamdify": "latest",
         "grunt": "latest",
