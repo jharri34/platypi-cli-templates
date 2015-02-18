@@ -24,3 +24,5 @@ class %name%TemplateControl %extends% {
 }
 
 plat.register.control('%registername%', %name%TemplateControl);
+
+export = %name%TemplateControl;
