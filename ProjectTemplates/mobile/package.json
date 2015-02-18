@@ -65,7 +65,7 @@
         "models": [
             {
                 "name": "base",
-                "type": "model"
+                "type": "factory"
             },
             {
                 "name": "server",
