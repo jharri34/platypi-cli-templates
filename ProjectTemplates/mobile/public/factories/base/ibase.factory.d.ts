@@ -1,3 +1,3 @@
 ﻿declare module models {
-    interface IBaseModel {}
+    interface IBaseFactory {}
 }
