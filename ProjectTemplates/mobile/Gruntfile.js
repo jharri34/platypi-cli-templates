@@ -212,7 +212,7 @@ module.exports = function (grunt) {
                 options: {
                     command: 'create',
                     id: '%cordovaid%',
-                    name: '%name%'
+                    name: '%cordovaname%'
                 }
             },
             add_platforms: {
