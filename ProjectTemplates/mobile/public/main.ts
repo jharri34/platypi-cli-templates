@@ -4,6 +4,10 @@
  * included in this file.
  */
 
+// libraries
+require('platypus');
+require('platypusui');
+
 // polyfills
 require('./polyfills');
 

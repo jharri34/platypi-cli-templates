@@ -2,13 +2,7 @@
 
 import plat = require('platypus');
 %import%
-
-class %name%Service %extends% {
-    constructor() {
-        super(null, '/');
-    }
-}
-
+class %name%Service %extends% {}
 
 plat.register.injectable('%registername%', %name%Service);
 

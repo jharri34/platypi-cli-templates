@@ -2,7 +2,6 @@
 
 import plat = require('platypus');
 %import%
-
 class %name%Injectable %extends% { }
 
 /**

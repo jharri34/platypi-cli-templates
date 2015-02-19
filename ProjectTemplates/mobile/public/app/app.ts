@@ -1,7 +1,6 @@
 /// <reference path='../_references.d.ts' />
 
 import plat = require('platypus');
-import platui = require('platypusui');
 import HomeViewControl = require('../viewcontrols/home/home.viewcontrol');
 
 export class App extends plat.App {
@@ -11,7 +10,7 @@ export class App extends plat.App {
      */
     constructor(router: plat.routing.Router) {
         super();
-        
+
         router.configure([
             { pattern: '', view: HomeViewControl }
         ]);
@@ -38,7 +37,7 @@ export class App extends plat.App {
      * this is where you want to save important data and finish ongoing processes.
      */
     suspend(ev: plat.events.LifecycleEvent) { }
-    
+
     /**
      * Event fired when the app has been programatically shutdown. This event is cancelable.
      */

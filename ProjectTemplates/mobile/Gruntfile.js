@@ -170,7 +170,7 @@ module.exports = function (grunt) {
                 tasks: ['less', 'cssmin']
             },
             browserify: {
-                files: ['./public/**/*.js'],
+                files: ['./public/**/*.js', './public/app.js'],
                 tasks: ['bundle']
             }
         },
