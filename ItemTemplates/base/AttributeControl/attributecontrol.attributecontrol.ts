@@ -23,3 +23,5 @@ class %name%AttributeControl %extends% {
 }
 
 plat.register.control('%registername%', %name%AttributeControl);
+
+export = %name%AttributeControl;
