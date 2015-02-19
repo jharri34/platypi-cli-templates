@@ -38,7 +38,7 @@
         "tsd": "next"
     },
     "platypi": {
-        "templatesVersion":  "0.2.2",
+        "templatesVersion":  "0.2.3",
         "projectType": "mobile",
         "viewcontrols": [
             {
