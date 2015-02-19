@@ -9,14 +9,11 @@
         "prepublish": "./node_modules/.bin/grunt install --force"
     },
     "dependencies": {
-        "platypus": "latest",
-        "platypusui":  "latest",
         "connect": "latest",
         "serve-static": "latest",
         "morgan": "latest"
     },
     "devDependencies": {
-        "stringify": "^3.1.0",
         "browserify": "latest",
         "deamdify": "latest",
         "grunt": "latest",
@@ -35,10 +32,13 @@
         "grunt-nodemon": "latest",
         "grunt-shell": "latest",
         "grunt-tslint": "latest",
+        "platypus": "latest",
+        "platypusui":  "latest",
+        "stringify": "^3.1.0",
         "tsd": "next"
     },
     "platypi": {
-        "templatesVersion":  "0.2.1",
+        "templatesVersion":  "0.2.2",
         "projectType": "mobile",
         "viewcontrols": [
             {
