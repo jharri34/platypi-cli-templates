@@ -10,6 +10,6 @@ class %name%Service %extends% {
 }
 
 
-plat.register.injectable('%registername%Service', %name%Service);
+plat.register.injectable('%registername%', %name%Service);
 
 export = %name%Service;

@@ -5,6 +5,6 @@ import plat = require('platypus');
 
 class %name%Repository %extends% { }
 
-plat.register.injectable('%registeredname%Repository', %name%Repository, []);
+plat.register.injectable('%registername%', %name%Repository, []);
 
 export = %name%Repository;
