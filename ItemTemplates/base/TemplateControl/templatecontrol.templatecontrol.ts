@@ -2,7 +2,6 @@
 
 import plat = require('platypus');
 %import%
-
 class %name%TemplateControl %extends% {
     /**
      * This is the property that indicates where the template HTML for this control exists.
