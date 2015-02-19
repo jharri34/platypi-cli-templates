@@ -6,7 +6,7 @@
 		},
 		"controls":  {
 			"base": {
-				"attribute": "./ItemTemplates/base/AttributeControl",
+				"attributecontrol": "./ItemTemplates/base/AttributeControl",
 				"injectable": "./ItemTemplates/base/Injectable",
 				"factory": "./ItemTemplates/base/Factory",
 				"service": "./ItemTemplates/base/Service",
@@ -18,7 +18,7 @@
 			}
 		},
         "controlLocation": {
-           "attribute": "common/controls",
+           "attributecontrol": "common/controls",
            "injectable": "common/injectables",
            "factory": "factories",
            "service": "services",
