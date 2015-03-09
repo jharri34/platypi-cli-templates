@@ -9,12 +9,10 @@
         "prepublish": "./node_modules/.bin/grunt install --force"
     },
     "dependencies": {
-        "connect": "latest",
-        "serve-static": "latest",
-        "morgan": "latest"
     },
     "devDependencies": {
         "browserify": "latest",
+        "connect": "latest",
         "deamdify": "latest",
         "grunt": "latest",
         "grunt-browserify": "latest",
@@ -32,8 +30,10 @@
         "grunt-nodemon": "latest",
         "grunt-shell": "latest",
         "grunt-tslint": "latest",
+        "morgan": "latest",
         "platypus": "latest",
         "platypusui":  "latest",
+        "serve-static": "latest",
         "stringify": "^3.1.0",
         "tsd": "next"
     },

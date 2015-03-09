@@ -4,7 +4,7 @@
 var DEBUG = true,
     path = require('path'),
     stringify = require('stringify'),
-    nodePath = path.normalize('./node_modules/.bin/')
+    nodePath = path.normalize('./node_modules/.bin/');
 
 stringify = stringify({
     extensions: ['.html'],
@@ -21,6 +21,14 @@ stringify = stringify({
         }
     }
 }).bind(stringify);
+
+//Determines which platforms should be added for Cordova projects
+var cordovaPlatforms = []; //add 'android' if you want to support Android
+if (process.platform === 'win32') {
+    cordovaPlatforms.push('windows');
+} else if (process.platform === 'darwin') {
+    cordovaPlatforms.push('ios');
+}
 
 module.exports = function (grunt) {
     var projectFiles = [
@@ -67,21 +75,6 @@ module.exports = function (grunt) {
                 './cordova/www'
             ]
         },
-        copy: {
-            cordovaProjectFiles: {
-                files: [
-                    {
-                        expand: true, flatten: true,
-                        src: [
-                            './public/index.html',
-                            './public/app.js',
-                            './public/style.css'
-                        ],
-                        dest: './cordova/www', filter: 'isFile'
-                    },
-                ]
-            }
-        },
         concurrent: {
             options: {
                 logConcurrentOutput: true
@@ -105,11 +98,77 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        nodemon: {
-            dev: {
-                script: 'index.js',
+        copy: {
+            cordovaProjectFiles: {
+                files: [
+                    {
+                        expand: true, flatten: true,
+                        src: [
+                            './public/index.html',
+                            './public/app.js',
+                            './public/style.css'
+                        ],
+                        dest: './cordova/www'
+                    },
+                    {
+                        expand: true, cwd: './public',
+                        src: [
+                            'assets/**',
+                        ],
+                        dest: './cordova/www/'
+                    }
+                ],
+                options: {
+                    process: function (data, srcpath) {
+                        if (/style\.css$/.test(srcpath)) {
+                            return data.replace(/(\(|'|")\/assets/g, '$1assets');
+                        } else if(/index\.html$/.test(srcpath)) {
+                            var scriptStart = data.indexOf('<script');
+                            data = data.slice(0, scriptStart) + '\n<script type="text/javascript" src="cordova.js"></script>\n' + data.slice(scriptStart);
+                        }
+                        return data;
+                    },
+                    processContentExclude: [
+                        '**/*.{png,gif,jpg,ico,psd,ttf,otf,woff,svg}'
+                    ],
+                    noProcess: [
+                        '**/*.{png,gif,jpg,ico,psd,ttf,otf,woff,svg}'
+                    ]
+                }
+            }
+        },
+        cordovacli: {
+            options: {
+                path: 'cordova'
+            },
+            create: {
                 options: {
-                    watch: ['public']
+                    command: 'create',
+                    id: '%cordovaid%',
+                    name: '%cordovaname%'
+                }
+            },
+            add_platforms: {
+                options: {
+                    command: 'platform',
+                    action: 'add',
+                    platforms: cordovaPlatforms
+                }
+            },
+            add_plugins: {
+                options: {
+                    command: 'plugin',
+                    action: 'add',
+                    plugins: [
+                        'network-information',
+                        'splashscreen',
+                        'org.apache.cordova.statusbar'
+                    ]
+                }
+            },
+            build: {
+                options: {
+                    command: 'build'
                 }
             }
         },
@@ -139,6 +198,45 @@ module.exports = function (grunt) {
                 }
             }
         },
+        nodemon: {
+            dev: {
+                script: 'index.js',
+                options: {
+                    watch: ['public']
+                }
+            }
+        },
+        shell: {
+            tsd: {
+                command: nodePath + 'tsd link --config tsd.public.json'
+            }
+        },
+        ts: {
+            options: {
+                target: 'es5',
+                module: 'commonjs',
+                sourceMap: DEBUG,
+                noImplicitAny: true,
+                fast: 'always'
+            },
+            client: {
+                src: projectFiles.concat(lintIgnoreFiles)
+            }
+        },
+        tsd: {
+            refresh: {
+                options: {
+                    // execute a command
+                    command: 'reinstall',
+
+                    //optional: always get from HEAD
+                    latest: true,
+
+                    // specify config file
+                    config: './tsd.public.json',
+                }
+            }
+        },
         tslint: {
             options: {
                 configuration: grunt.file.readJSON('tslint.json')
@@ -163,80 +261,15 @@ module.exports = function (grunt) {
         watch: {
             client: {
                 files: projectFiles,
-                tasks: ['tslint', 'ts:client']
+                tasks: ['ts:client']
             },
             less: {
                 files: ['./public/**/*.less'],
                 tasks: ['less', 'cssmin']
             },
             browserify: {
-                files: ['./public/**/*.js', './public/app.js'],
+                files: ['./public/**/*.js', './public/**/*.html', '!./public/app.js'],
                 tasks: ['bundle']
-            }
-        },
-        shell: {
-            tsd: {
-                command: nodePath + 'tsd link --config tsd.public.json'
-            }
-        },
-        tsd: {
-            refresh: {
-                options: {
-                    // execute a command
-                    command: 'reinstall',
-
-                    //optional: always get from HEAD
-                    latest: true,
-
-                    // specify config file
-                    config: './tsd.public.json',
-                }
-            }
-        },
-        ts: {
-            options: {
-                target: 'es5',
-                module: 'commonjs',
-                sourceMap: DEBUG,
-                noImplicitAny: true
-            },
-            client: {
-                src: projectFiles.concat(lintIgnoreFiles)
-            }
-        },
-        cordovacli: {
-            options: {
-                path: 'cordova'
-            },
-            create: {
-                options: {
-                    command: 'create',
-                    id: '%cordovaid%',
-                    name: '%cordovaname%'
-                }
-            },
-            add_platforms: {
-                options: {
-                    command: 'platform',
-                    action: 'add',
-                    platforms: ['android']
-                }
-            },
-            add_plugins: {
-                options: {
-                    command: 'plugin',
-                    action: 'add',
-                    plugins: [
-                        'network-information',
-                        'splashscreen',
-                        'org.apache.cordova.statusbar'
-                    ]
-                }
-            },
-            build: {
-                options: {
-                    command: 'build'
-                }
             }
         }
     });
@@ -256,76 +289,20 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-cordovacli');
 
-    grunt.registerTask('appendCordovaScript', 'Appends the cordova.js script reference to the project index.html file', function () {
-        // <script type="text/javascript" src="cordova.js"></script>
-
-        // index.html location
-        var projectIndexLocation = 'cordova/www/index.html';
-
-        // index.html contents
-        var projectIndex = grunt.file.read(projectIndexLocation);
-
-        if (projectIndex.indexOf('src="cordova.js"') === -1) {
-            var beforeBodyEnd = projectIndex.slice(0, projectIndex.indexOf('</body>')),
-                bodyEndAndBeyond = projectIndex.slice(projectIndex.indexOf('</body>')),
-                newProjectIndex = projectIndex; // default to current state incase something goes wrong
-
-            beforeBodyEnd = beforeBodyEnd + '<script type="text/javascript" src="cordova.js"></script>';
-
-            newProjectIndex = beforeBodyEnd + '\n' + bodyEndAndBeyond;
-
-            grunt.file.write(projectIndexLocation, newProjectIndex);
-
-            grunt.log.writeln('Appended cordova.js to Project Index at: ' + projectIndexLocation)
-        }
-    });
-
-    grunt.registerTask('makeCordovaDirectory', 'Creates a directory for cordova projects.', function () {
+    //Tasks for Cordova project building
+    grunt.registerTask('make-cordova-directory', 'Creates a directory for cordova projects.', function () {
         grunt.file.mkdir('cordova/');
         grunt.log.writeln('Created cordova directory.');
     });
+    grunt.registerTask('setup-cordova', ['make-cordova-directory', 'cordovacli:create', 'cordovacli:add_platforms', 'cordovacli:add_plugins']);
+    grunt.registerTask('cordova-copy', ['clean:cordovaProject', 'build', 'copy:cordovaProjectFiles']);
+    grunt.registerTask('build-cordova', ['cordova-copy', 'cordovacli:build']);
 
-    grunt.registerTask('addCordovaPlatform', 'Add platforms to a cordova project based on your dev OS.', function () {
-        // possible platforms 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
-
-        var cordovaTaskPlatformVar = 'cordovacli.add_platforms.options.platforms',
-            platforms = grunt.config(cordovaTaskPlatformVar);
-
-        if (process.platform === 'win32') {
-            platforms.push('windows');
-        } else if (process.platform === 'darwin') {
-            platforms.push('ios');
-        }
-
-        grunt.config.set(cordovaTaskPlatformVar, platforms);
-
-        grunt.log.writeln('Your OS is ' + (process.platform === 'darwin' ? 'OS X' : process.platform)
-                           + ' so your target platforms are: ' + grunt.config('cordovacli.add_platforms.options.platforms'));
-
-        grunt.task.run('cordovacli:add_platforms');
-    });
-
-    grunt.registerTask('setupCordova', ['makeCordovaDirectory', 'cordovacli:create', 'addCordovaPlatform', 'cordovacli:add_plugins']);
-
-    grunt.registerTask('cordovaCopy', ['clean:cordovaProject', 'build', 'copy:cordovaProjectFiles', 'appendCordovaScript']);
-
-    /// Register Grunt Tasks
-    // tasks: default, bundle, test, lint
-
-    // Installs any dependencies, can be used to do bower install. Currently does tsd.
-    grunt.registerTask('tsd-install', ['shell:tsd', 'tsd']);
-    grunt.registerTask('install', ['tsd-install', 'setupCordova']);
-
-    // Bundles the JS using browserify, also uglifies if we aren't debugging
-    grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify']));
-
-    // Concurrently compiles all the typescript/less, then bundles the JS with browserify
-    grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']);
-
-    grunt.registerTask('build-cordova', ['cordovaCopy', 'cordovacli:build']);
-
+    //Tasks for building and debuging
+    grunt.registerTask('tsd-install', ['shell:tsd', 'tsd']); //install typings from DefinitelyTyped
+    grunt.registerTask('install', ['tsd-install']);
+    grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify'])); //combine all js into one file.  Uglify when DEBUG=false
+    grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']); // Concurrently compiles all the typescript/less, then bundles the JS with browserify
     grunt.registerTask('run', ['concurrent:run']);
-
-    // Default Task, watches the directory for changes, rebuilds.
-    grunt.registerTask('default', ['build', 'concurrent:run']);
+    grunt.registerTask('default', ['build', 'concurrent:run']); // Default Task, watches the directory for changes, rebuilds.
 };
