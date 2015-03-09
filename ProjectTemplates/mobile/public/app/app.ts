@@ -1,5 +1,5 @@
 /// <reference path='../_references.d.ts' />
-
+declare var StatusBar: { hide(): void; };
 import plat = require('platypus');
 import HomeViewControl = require('../viewcontrols/home/home.viewcontrol');
 
@@ -22,7 +22,11 @@ export class App extends plat.App {
      * 
      * @param ev The LifecycleEvent object.
      */
-    ready(ev: plat.events.LifecycleEvent) { }
+    ready(ev: plat.events.LifecycleEvent) { 
+        try {
+            StatusBar.hide();
+        } catch(e) { }
+    }
 
     /**
      * Event fired when an internal error occurs.
