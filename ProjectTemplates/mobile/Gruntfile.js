@@ -113,7 +113,7 @@ module.exports = function (grunt) {
                     {
                         expand: true, cwd: './public',
                         src: [
-                            'assets/**',
+                            'common/assets/**',
                         ],
                         dest: './cordova/www/'
                     }
@@ -121,7 +121,7 @@ module.exports = function (grunt) {
                 options: {
                     process: function (data, srcpath) {
                         if (/style\.css$/.test(srcpath)) {
-                            return data.replace(/(\(|'|")\/assets/g, '$1assets');
+                            data = data.replace(/(\(|'|")\/common\/assets/g, '$1common/assets');
                         } else if(/index\.html$/.test(srcpath)) {
                             var scriptStart = data.indexOf('<script');
                             data = data.slice(0, scriptStart) + '\n<script type="text/javascript" src="cordova.js"></script>\n' + data.slice(scriptStart);
