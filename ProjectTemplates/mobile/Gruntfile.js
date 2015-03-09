@@ -53,9 +53,7 @@ module.exports = function (grunt) {
                         debug: DEBUG
                     },
                     transform: [
-                        function (file) {
-                            return stringify(file);
-                        },
+                        stringify,
                         'deamdify'
                     ]
                 }

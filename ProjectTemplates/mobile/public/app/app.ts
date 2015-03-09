@@ -19,10 +19,8 @@ export class App extends plat.App {
     /**
      * Event fired when the app is ready. This method can be used to 
      * configure various settings prior to loading the rest of the application
-     * 
-     * @param ev The LifecycleEvent object.
-     */
-    ready(ev: plat.events.LifecycleEvent) { 
+    **/
+    ready(ev: plat.events.LifecycleEvent): void { 
         try {
             StatusBar.hide();
         } catch(e) { }
@@ -31,7 +29,7 @@ export class App extends plat.App {
     /**
      * Event fired when an internal error occurs.
      */
-    error(ev: plat.events.ErrorEvent<Error>) {
+    error(ev: plat.events.ErrorEvent<Error>): void {
         // log or handle errors at a global level
         console.log(ev.error);
     }
@@ -40,7 +38,7 @@ export class App extends plat.App {
      * Event fired when the app is suspended. If running on a device, 
      * this is where you want to save important data and finish ongoing processes.
      */
-    suspend(ev: plat.events.LifecycleEvent) { }
+    suspend(ev: plat.events.LifecycleEvent): void { }
 
     /**
      * Event fired when the app has been programatically shutdown. This event is cancelable.
@@ -52,19 +50,17 @@ export class App extends plat.App {
      * this is where you want to re-initialize the app state. This is called only when the app was 
      * previously suspended.
      */
-    resume(ev: plat.events.LifecycleEvent) { }
+    resume(ev: plat.events.LifecycleEvent): void { }
 
     /**
      * Event fired when the device regains connectivity and is now in an online state.
      */
-    online(ev: plat.events.LifecycleEvent) { }
+    online(ev: plat.events.LifecycleEvent): void { }
 
     /**
      * Event fired when the device loses connectivity and is now in an offline state.
-     * 
-     * @param ev The ILifecycleEvent object.
-     */
-    offline(ev: plat.events.LifecycleEvent) { }
+    **/
+    offline(ev: plat.events.LifecycleEvent): void { }
 }
 
 plat.register.app('%name%', App, [
