@@ -20,7 +20,7 @@ stringify = stringify({
             caseSensitive: true
         }
     }
-}).bind(stringify);
+});
 
 //Determines which platforms should be added for Cordova projects
 var cordovaPlatforms = []; //add 'android' if you want to support Android
