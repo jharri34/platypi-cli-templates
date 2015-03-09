@@ -208,7 +208,14 @@ module.exports = function (grunt) {
         },
         shell: {
             tsd: {
-                command: nodePath + 'tsd link --config tsd.public.json'
+                command: [
+                    nodePath + 'tsd reinstall -so --config tsd.public.json',
+                    nodePath + 'tsd link --config tsd.public.json'
+                ].join(' && ')
+            },
+            options: {
+                stdout: true,
+                stdin: false
             }
         },
         ts: {
@@ -221,20 +228,6 @@ module.exports = function (grunt) {
             },
             client: {
                 src: projectFiles.concat(lintIgnoreFiles)
-            }
-        },
-        tsd: {
-            refresh: {
-                options: {
-                    // execute a command
-                    command: 'reinstall',
-
-                    //optional: always get from HEAD
-                    latest: true,
-
-                    // specify config file
-                    config: './tsd.public.json',
-                }
             }
         },
         tslint: {
@@ -275,7 +268,6 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-ts');
-    grunt.loadNpmTasks('grunt-tsd');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -299,7 +291,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build-cordova', ['cordova-copy', 'cordovacli:build']);
 
     //Tasks for building and debuging
-    grunt.registerTask('tsd-install', ['shell:tsd', 'tsd']); //install typings from DefinitelyTyped
+    grunt.registerTask('tsd-install', ['shell:tsd']); //install typings from DefinitelyTyped
     grunt.registerTask('install', ['tsd-install']);
     grunt.registerTask('bundle', ['browserify'].concat(DEBUG ? [] : ['uglify'])); //combine all js into one file.  Uglify when DEBUG=false
     grunt.registerTask('build', ['clean:bundle', 'concurrent:build', 'concurrent:bundle']); // Concurrently compiles all the typescript/less, then bundles the JS with browserify
